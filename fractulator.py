@@ -29,13 +29,13 @@ def gcf(a, b):
 
 def lcm(a, b):
     """
-    Return the least common multiple of a and b
+    Return the least common positive multiple of a and b
 
     :param a: First integer
     :param b: Second integer
     :return: Least common multiple of both integers
     """
-    return int(a / gcf(a, b) * b)
+    return abs(int(a / gcf(a, b) * b))
 
 
 class Fraction:

@@ -7,11 +7,15 @@ class GcmLcfTest(unittest.TestCase):
         self.assertEqual(lcm(3, 2), 6)
         self.assertEqual(lcm(13, 21), 273)
         self.assertEqual(lcm(2, 4), 4)
+        self.assertEqual(lcm(-8, -4), 8)
+        self.assertEqual(lcm(-3, 12), 12)
 
     def test_gcf(self):
         self.assertEqual(gcf(14, 8), 2)
         self.assertEqual(gcf(5, 13), 1)
         self.assertEqual(gcf(8, 4), 4)
+        self.assertEqual(gcf(-12, -8), 4)
+        self.assertEqual(gcf(-9, 12), 3)
 
 
 class FractulatorTest(unittest.TestCase):
