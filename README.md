@@ -23,7 +23,7 @@ The fractulator is designed to be a simple tool to use, and it is very much so i
     * `./fractulator.py 3 * 2_1/4`
     * Syntax for a mixed number is `whole_numerator/denominator`
     
-* When dealing with negative fractions, put the minus sign as the first character in the fraction, or you will receive a parsing error:
+* When dealing with negative fractions, put the minus sign as the first character in the fraction to avoid parsing errors:
     * `./fractulator.py -4/3 + -2_5/6`
 
 * The output will be a whole number, mixed number, or fraction depending on what the result simplifies to
