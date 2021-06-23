@@ -208,7 +208,7 @@ class Fraction:
 
         return f"{self.numerator}/{self.denominator}"
 
-    def __repr__(self):
+    def __repr__(self):   # pragma: no cover
         """
         Copy of str, for use in debugger etc.
 
