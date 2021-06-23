@@ -24,7 +24,7 @@ jobs:
           pip install pytest pytest-cov
 
       - name: Test with pytest
-        run: pytest fractulator_test.py --doctest-modules --junitxml=junit/test-results-${{ matrix.python-version }}.xml --cov=fractulator --cov-branch --cov-report=html
+        run: pytest fractulator_test.py --doctest-modules --junitxml=junit/test-results-${{ matrix.python-version }}.xml --cov=fractulator --cov-branch --cov-report=html --cov-fail-under=95
 
       - name: Upload pytest test results
         uses: actions/upload-artifact@v2
