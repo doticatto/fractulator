@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8]
 
     steps:
       - uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest pytest-cov
       - name: Test with pytest
-        run: pytest fractulator_test.py --doctest-modules --junitxml=junit/test-results-${{ matrix.python-version }}.xml --cov=fractulator.py --cov-branch --cov-report=html
+        run: pytest fractulator_test.py --doctest-modules --junitxml=junit/test-results-${{ matrix.python-version }}.xml --cov=fractulator --cov-branch --cov-report=html
       - name: Upload pytest test results
         uses: actions/upload-artifact@v2
         with:
