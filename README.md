@@ -5,6 +5,7 @@ Yes, he could have used the built in Python fraction and greatest common denomin
 The fractulator is designed to be a simple tool to use, and it is very much so if you follow a few simple rules.
 
 ## Setup
+* Fractulator supports Python 3.6-3.8
 * First of all, make sure you `chmod +x fractulator.py` to make it executable.  
 * In order to avoid having to escape all of your `*` characters, run `set -f` before using the tool
 
