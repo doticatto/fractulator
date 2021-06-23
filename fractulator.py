@@ -192,14 +192,21 @@ def parse_command_line(arguments):
 
 
 helptext = (
-    "Input expression to evaluate. \nValid operators are + - / *. \nFractions should be expressed as X/Y or "
-    "-X/Y for proper fractions, and X_Y/Z or -X_Y/Z for mixed fractions"
+    'Input expression to evaluate. \n\nValid operators are + - / "*" \n(Asterisk must be quoted or escaped to prevent '
+    "glob expansion in shell, or you can run 'set -f' beforehand to disable shell expansion) \n\nFractions should be "
+    "expressed as X/Y or -X/Y, and X_Y/Z or -X_Y/Z for mixed fractions"
 )
 
 # Note: argparse does not play well with - characters, so it made negative numbers an issue. Raw argv parsing works
 #       just as well for simple string data
 if __name__ == "__main__":
     if len(argv) == 1 or {"-h", "--help"}.intersection(argv):
+        print("\n")
         print(helptext)
     else:
-        print(parse_command_line(argv[1:]))
+        try:
+            print(parse_command_line(argv[1:]))
+        except Exception as e:
+            print("\n")
+            print(str(e), "\n")
+            print(helptext)
