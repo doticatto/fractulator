@@ -217,7 +217,7 @@ class FractulatorTest(unittest.TestCase):
         with self.assertRaises(ValueError) as invalid_mixed_exc:
             Fraction.parse(parse_val)
         self.assertEqual(
-            str(invalid_mixed_exc.exception), "Invalid fraction input: x_3/7"
+            str(invalid_mixed_exc.exception), "Invalid fraction input: x_3/7jj"
         )
 
     def test_parse_too_many_items(self):
