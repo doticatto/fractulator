@@ -5,6 +5,13 @@ __author__ = "John Mahoney"
 
 
 def gcf(a, b):
+    """
+    Determine the greatest common positive factor which a and b share
+
+    :param a: First integer
+    :param b: Second integer
+    :return: Greatest common factor of both integer
+    """
     if abs(a) < abs(b):
         x = a
         y = b
@@ -21,11 +28,28 @@ def gcf(a, b):
 
 
 def lcm(a, b):
+    """
+    Return the least common multiple of a and b
+
+    :param a: First integer
+    :param b: Second integer
+    :return: Least common multiple of both integers
+    """
     return int(a / gcf(a, b) * b)
 
 
 class Fraction:
-    def __init__(self, numerator, denominator, simplify=False):
+    """
+    Class which contains all of the logic for parsing, printing, manipulation, and arithmetic of fractions
+    """
+    def __init__(self, numerator, denominator=1, simplify=False):
+        """
+        Build a fraction from the given numerator and (optional) denominator.
+
+        :param numerator: Numerator of fraction
+        :param denominator: Denominator of fraction (optional), if not specified defaults to 1. Cannot be zero
+        :param simplify: Boolean specifying if you wish for this fraction to be simplified in initialization
+        """
         self.numerator = int(numerator)
         self.denominator = int(denominator)
         if self.denominator == 0:
@@ -34,11 +58,21 @@ class Fraction:
             self.simplify()
 
     def simplify(self):
+        """
+        Function which simplifies this fraction to it's lowest terms ( i.e. 6/4 -> 3/2 )
+
+        :return: None
+        """
         self_simplified = self.simplified()
         self.numerator = self_simplified.numerator
         self.denominator = self_simplified.denominator
 
     def simplified(self):
+        """
+        Function which returns the simplified version of this fraction ( i.e. 6/4 returns 3/2 )
+
+        :return: Simplified instance of this Fraction
+        """
         scalar = gcf(self.numerator, self.denominator)
         numerator = int(self.numerator / scalar)
         denominator = int(self.denominator / scalar)
@@ -48,12 +82,31 @@ class Fraction:
         return Fraction(numerator, denominator)
 
     def scale(self, scalar):
+        """
+        Function used to scale fraction for comparison in addition and subtraction operations
+
+        :param scalar: Amount to multiply both the numerator and denominator by
+        :return: Scaled instance of this fraction ( i.e. Fraction(3, 2).scale(3) -> Fraction(9, 6) )
+        """
         return Fraction(self.numerator * scalar, self.denominator * scalar)
 
     def inverse(self, simplify=False):
+        """
+        Returns the inverse of this fraction for use in division operations
+
+        :param simplify: Should the inverted fraction be simplified ( i.e. 6/4 -> 2/3 )
+        :return: Inverse of this fraction ( i.e. 6/4 returns 4/6)
+        """
         return Fraction(self.denominator, self.numerator, simplify=simplify)
 
     def normalize(self, other):
+        """
+        Return a normalized pair where both denominators are equal to support addition, subtraction, and comparison
+        ( i.e. Fraction(2, 3).normalize(Fraction(3, 5)) returns ( Fraction(10, 15), Fraction(9, 15) )
+
+        :param other: The other fraction to normalize against
+        :return: Normalized pair of fractions with matching denominators
+        """
         if not self.is_normalized(other):
             lcm_denominator = lcm(self.denominator, other.denominator)
             self_scale = lcm_denominator / self.denominator
@@ -62,9 +115,21 @@ class Fraction:
         return self, other
 
     def is_normalized(self, other):
+        """
+        Boolean value which states if the two fractions are normalized, meaning if they share the same denominator
+
+        :param other: Other fraction instance to compare to
+        :return: Boolean stating if these two fractions are normalized
+        """
         return self.denominator == other.denominator
 
     def __add__(self, other):
+        """
+        Addition operator between two fractions, will normalize before addition and simplify after
+
+        :param other: Other fraction instance to add
+        :return: Fraction instance of self added to other ( i.e. 4/3 + 1/6 = 9/6 )
+        """
         self_scaled, other_scaled = self.normalize(other)
         return Fraction(
             self_scaled.numerator + other_scaled.numerator,
@@ -73,6 +138,12 @@ class Fraction:
         )
 
     def __sub__(self, other):
+        """
+        Subtraction operator between two fractions, will normalize before subtraction and simplify after
+
+        :param other: Other fraction instance to subtract
+        :return: Fraction instance of other subtracted from self ( i.e. 4/3 - 1/6 = 7/6 )
+        """
         self_scaled, other_scaled = self.normalize(other)
         return Fraction(
             self_scaled.numerator - other_scaled.numerator,
@@ -81,6 +152,12 @@ class Fraction:
         )
 
     def __mul__(self, other):
+        """
+        Multiplication operator between two fractions, will simplify after multiplication
+
+        :param other: Other fraction instance to multiply
+        :return: Fraction instance of other multiplied by self ( i.e. 2/3 * 5/10 = 1/3 )
+        """
         return Fraction(
             self.numerator * other.numerator,
             self.denominator * other.denominator,
@@ -88,9 +165,21 @@ class Fraction:
         )
 
     def __truediv__(self, other):
+        """
+        Division operator between two fractions, will simplify after division
+
+        :param other: Other fraction instance to divide by
+        :return: Fraction instance of self divided by other ( i.e. 2/3 / 1/2 = 4/3 )
+        """
         return self * other.inverse()
 
     def __eq__(self, other):
+        """
+        Equality comparator between this and other fraction, will normalize before comparison
+
+        :param other: Other fraction to compare for equality
+        :return: Boolean specifying equality between self and other ( i.e. 2/3 == 1/2 -> False, 2/3 == 4/6 -> True )
+        """
         if not self.is_normalized(other):
             self_normalized, other_normalized = self.normalize(other)
             return self_normalized == other_normalized
@@ -98,6 +187,14 @@ class Fraction:
         return self.numerator == other.numerator
 
     def __str__(self):
+        """
+        Stringify this fraction.
+        Fractions simplifying to whole numbers will be displayed as only the whole number: 4/2 -> 2
+        Proper fractions will display as such: 2/4 -> 2/4
+        Improper fractions will be displayed as mixed numbers: 5/2 -> 2_1/2
+
+        :return: Stringified version of self
+        """
         if self.numerator == 0:
             return "0"
         if abs(self.numerator) >= abs(self.denominator):
@@ -112,10 +209,24 @@ class Fraction:
         return f"{self.numerator}/{self.denominator}"
 
     def __repr__(self):
+        """
+        Copy of str, for use in debugger etc.
+
+        :return: Stringified version of self
+        """
         return str(self)
 
     @classmethod
     def parse(cls, input_str):
+        """
+        Parse a string from the command line into a fraction. Will simplify the input value
+        For whole numbers: 3 -> 3/1
+        For proper/improper fractions: 4/5 -> 4/5
+        For mixed numbers: 2_1/3 -> 7/3
+
+        :param input_str: Input from command line to parse as fraction
+        :return: Constructed, simplified Fraction instance
+        """
         parsed = input_str.split("_")
         whole = 0
         if len(parsed) == 2:
@@ -135,7 +246,7 @@ class Fraction:
                 whole = int(fraction_parsed[0])
             except ValueError:
                 raise ValueError(f"Invalid fraction input: {input_str}")
-            return cls(whole, 1)
+            return cls(whole)
 
         try:
             denominator = int(fraction_parsed[1])
@@ -152,13 +263,22 @@ class Fraction:
             )
 
         if whole < 0:
-            return_fraction *= Fraction(-1, 1)
-        return_fraction += Fraction(whole, 1)
+            return_fraction *= Fraction(-1)
+        return_fraction += Fraction(whole)
 
         return return_fraction.simplified()
 
 
 def parse_command_line(arguments):
+    """
+    Parse the command line arguments into an eval function to return the result. Raise an exception if any improperly
+    formatted fractions or operators are found. This eval is safe because all inputs are either cast into integers or
+    sanitized against a list of allowed operands. If 'set -f' is not set before running this script, then * characters
+    must be escaped or quoted when used on the command line.
+
+    :param arguments: Arguments passed in from command line.
+    :return: Fraction result from evaluated expression
+    """
     valid_operators = ["+", "-", "*", "/"]
     parsed_list = []
     full_command = " ".join(arguments)
