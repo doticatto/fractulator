@@ -319,7 +319,7 @@ helptext = (
 
 # Note: argparse does not play well with - characters, so it made negative numbers an issue. Raw argv parsing works
 #       just as well for simple string data
-if __name__ == "__main__":
+if __name__ == "__main__":   # pragma: no cover
     if len(argv) == 1 or {"-h", "--help"}.intersection(argv):
         print("\n")
         print(helptext)
