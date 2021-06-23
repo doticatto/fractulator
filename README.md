@@ -36,6 +36,8 @@ The fractulator is designed to be a simple tool to use, and it is very much so i
 `Invalid input: 16/17 @ 18/19, @ is not a valid operator`
     * `./fractulator.py 16/17 * 18q/19`  
       `Invalid fraction input: 18q/19`
+    * `./fractulator.py 16/17 * 18/19 +`  
+      `Invalid input: 16/17 * 18/19 +, incorrect number of operands `
       
 * Have fun with fraculator! All of the methods are well documented so if you find yourself needing a non-standard 
   fraction library for Python go right ahead and do as you please with it!
